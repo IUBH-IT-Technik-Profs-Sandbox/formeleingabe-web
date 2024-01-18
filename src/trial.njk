@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Let's try to input formulæ</title>
+    <style>
+        body {
+            margin: 1em;
+        }
+        .target {
+            border: solid 1pt #AAA;
+            padding: 0.5em;
+            min-height: 5em;
+        }
+        section img {
+            max-width: 90%;
+        }
+        .question {
+            margin: 2em
+        }
+        #top {
+            position: fixed;; padding:0.5em;
+            background: #DDD;
+            top: 0;
+            left: 0;
+            z-index: 999;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<section id="top">
+<h1>Trial to input formulæ</h1>
+
+<p>Please type into the boxes below the images; the text should be approximately the text of the question.
+Input each of the maths formulæ in the formula editor and copy it from there, then paste it in the textbox.
+Please do this for every mathematical formula.</p>
+    <p>Please save the result with the button below and send it to us.</p>
+    <p>
+        <button onclick="showEditor('https://demo.wiris.com/mathtype/en/')">WIRIS</button>
+        <button onclick="showEditor('https://cortexjs.io/mathlive/demo/')">MATHLIVE</button>
+        <button onclick="showEditor('https://equatio.texthelp.com/')">EQUATIO</button>
+
+    </p>
+</section>
+<section style="height:10em">&nbsp;</section>
+
+{% for item in range(1,11) %}
+<hr>
+<section class="question" id="sec-{{item}}">
+    <h2>Question {{item}}</h2>
+    <p><img src="/static/Q{{item}}.png"></p>
+    <div class="target" contenteditable="true" >... type here...</div>
+</section>
+{% endfor %}
+
+<hr>
+<p align="right"><button onclick="downloadWhole()">Save to HTML</button></p>
+<script>
+    const targets = document.querySelectorAll("div.target");
+
+    for(let target of targets) {
+        target.addEventListener("paste", (event) => {
+            event.preventDefault();
+            let paste = (event.clipboardData || window.clipboardData).getData("text");
+            if(!/<([a-zA-Z]:)?math[ >]/i.test(paste)) {
+                console.log("Not math")
+                alert("Not math")
+                return
+            }
+
+            console.log("pasting")
+            const selection = window.getSelection();
+            if (!selection.rangeCount) return;
+            selection.deleteFromDocument();
+            console.log(paste)
+            const m = document.createElement("p");
+            m.innerHTML = paste;
+            console.log(m.innerHTML)
+            selection.getRangeAt(0).insertNode(m.children[0]);
+            selection.collapseToEnd();
+        });
+    }
+
+    function downloadWhole() {
+        download(document.documentElement.outerHTML,
+            "input-with-formulae.html",
+            "text/html")
+    }
+
+    function download(text, name, type) {
+        const a = document.createElement("a");
+        const file = new Blob([text], {type: type});
+        a.href = URL.createObjectURL(file);
+        a.download = name;
+        a.click()
+    }
+
+    function showEditor(url) {
+        window.open(url, "formulaeditor", "popup")
+    }
+
+</script>
+
+</html>

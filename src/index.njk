@@ -1,0 +1,70 @@
+---
+layout: base.njk
+title: Home
+description: Wir finden unsere Formeleingabe Modul für Klausuren und alle anderen Web-Aktivitäten.
+---
+
+<main id="main" class="p-6 md:p-12 lg:p-16 border-t-8 border-gray-200">
+    <div class="max-w-xl">
+        <h1 class="font-bold text-xl mb-2">Formeleingabe.iu.org <span class="font-light text-gray-500">v{{ pkg.version }}</span></h1>
+        <img src="./static/CubicBezier.svg" style="position:absolute; right:-20rem; top:10em; rotate: 90deg; scale: 50%">
+        <p>Hier versuchen wir ein Paar Formeleingabewerkzeuge.
+
+        </p>
+        <p>Das ist der Laborplatz der <a href="https://teams.microsoft.com/l/channel/19%3aKVrOwOU697KUQORQbIAQxDNa9EE9rX2LJGjt5ORi-Zg1%40thread.tacv2/General?groupId=eec3c044-719d-43c7-8626-dee74e07638c&tenantId=f419c9fe-f7b0-4d87-bee8-e8dfb2190cab"
+          >Gruppe zur Mathematikeingabe (eine IU Interne Gruppe)</a>. Aktuell haben wir
+          drei Kandidaten im Rennen:</p>
+
+        <ul class="md:flex my-4 -mx-2 leading-tight " style="margin-top:3em; margin-bottom:3em">
+            <li class="md:flex-auto p-2">
+              <div class="bg-ws-blue-500 text-white rounded hover:bg-ws-blue-600" style="padding:1em">
+                <h3 class="font-bold text-xl">MathLive</h3>
+                <p>Open-Source Projekt, Verfügbarer Entwickler, Self Hosting.</p>
+                <p><a class="text-white font-bold" href="DiscoverMathLive">Discover</a> •
+                    <a class="text-white font-bold" href="https://cortexjs.io/mathlive/">Web</a> •
+                    <a class="text-white font-bold" href="https://cortexjs.io/docs/mathlive/">Doku</a>
+                </p>
+              </div>
+            </li>
+
+
+
+            <li class="md:flex-auto p-2">
+                <div class="bg-cyan-500 text-white rounded hover:bg-cyan-500" style="padding:1em">
+                    <h3 class="font-bold text-xl">Wiris MathType</h3>
+                    <p>Kommerzielles Service, Cloud Hosting, LMS-Integration.</p>
+                    <p><span class="text-white font-bold" href="...">Discover</span> •
+                        <a class="text-white font-bold" href="https://www.wiris.com/en/mathtype/">Web</a> •
+                        <a class="text-white font-bold" href="https://moodle.org/plugins/atto_wiris">Doku</a>
+                    </p>
+                </div>
+            </li>
+
+
+            <li class="md:flex-auto p-2">
+                <div class="bg-sky-600 text-white rounded hover:bg-sky-600" style="padding:1em">
+                    <h3 class="font-bold text-xl">Texthelp Equatio</h3>
+                    <p>Kommerzielles Service, Cloud Hosting, LMS-Integration noch zu fertigen.</p>
+                    <p><span class="text-white font-bold" href="...">Discover</span> •
+                        <a class="text-white font-bold" href="https://equatio.texthelp.com/">Demo</a> •
+                        <a class="text-white font-bold" href="https://www.texthelp.com/products/equatio/">Doku</a>
+                    </p>
+                </div>
+            </li>
+
+        </ul>
+
+        <hr>
+        <p>Laufende Aufgaben:</p>
+        <ul class="list-disc">
+            <li>Set-up Discover-Seiten für Wiris und Equatio (Paul)</li>
+            <li>Augaben profilieren, um die Versuche vergleichbar zu machen (?? Robert ??)</li>
+            <li>Verfügbarkeitengarantien von Equatio und Wiris begutachten (Anzelika)</li>
+        </ul>
+
+        <footer class="text-xs text-gray-500 mt-12 border-t border-gray-100 pt-6">
+            <p>Proudly crafted at home <a href="https://hoplahup.net/paul">Paul Libbrecht</a>
+            </p>
+        </footer>
+    </div>
+</main>

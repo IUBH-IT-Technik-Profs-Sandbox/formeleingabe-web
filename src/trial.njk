@@ -62,14 +62,20 @@ Please do this for every mathematical formula.</p>
     for(let target of targets) {
         target.addEventListener("paste", (event) => {
             event.preventDefault();
+            console.log(event)
+            console.log("Types", (event.clipboardData || window.clipboardData).types)
+            console.log("Should HTML be read?", (event.clipboardData || window.clipboardData).getData("text/html"))
             let paste = (event.clipboardData || window.clipboardData).getData("text");
-            if(!/<([a-zA-Z]:)?math[ >]/i.test(paste)) {
+            if(!/<([a-zA-Z]:)?(math|maction|annotation|annotation-xml|menclose|merror|mfenced|mfrac|mi|mmultiscripts|mn|mo|mover|mpadded|mphantom|mprescripts|mroot|mrow|ms|semantics|mspace|msqrt|mstyle|msub|msup|msubsup|mtable|mtd|mtext|mtr|munder|munderover)[ >]/i.test(paste)) {
                 console.log("Not math")
                 alert("Not math")
                 return
             }
 
             console.log("pasting")
+            if(!/<([a-zA-Z]:)?math[ >]/i.test(paste)) {
+                paste = "<math xmlns='http://www.w3.org/1998/Math/MathML'>" + paste + "</math>"
+            }
             const selection = window.getSelection();
             if (!selection.rangeCount) return;
             selection.deleteFromDocument();

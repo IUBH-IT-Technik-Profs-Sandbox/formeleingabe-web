@@ -1,0 +1,14 @@
+{
+	"name": "formeleingabe-server",
+	"version": "0.9.0",
+	"description": "",
+	"scripts": {
+		"start": "node app.js"
+	},
+	"type": "module",
+	"license": "ISC",
+	"devDependencies": {
+		"express": "^4.18.1",
+		"body-parser": "1.20.2"
+	}
+}

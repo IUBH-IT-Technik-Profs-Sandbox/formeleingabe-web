@@ -15,3 +15,7 @@
 `npm run build`
 `rsync -avc dist/ formeleingabe.iu.org:/var/www/formeleingabe.iu.org/`
 
+## TODO
+* timer
+* secure response URLs
+* update questionList and check all arrive (checkboxes?)

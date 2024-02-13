@@ -6,6 +6,17 @@ module.exports = function (eleventyConfig) {
 	// Folders to copy to build dir (See. 1.1)
 	eleventyConfig.addPassthroughCopy("src/static");
 
+	eleventyConfig.addNunjucksGlobal("threeEds", ()=> {
+		const r = ["Mathlive","Equatio","Wiris"]
+		for(let i=0; i<20; i++) {
+			let a = Math.trunc(Math.random()*3), b = Math.trunc(Math.random()*3);
+			if(a!==b) {
+				let x = r[a]; r[a] = r[b]; r[b] = x;
+			}
+		}
+		return r;
+	})
+
 	// Filters 
 	Object.keys(filters).forEach((filterName) => {
 		eleventyConfig.addFilter(filterName, filters[filterName])

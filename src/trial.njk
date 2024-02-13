@@ -23,49 +23,187 @@
             background: #DDD;
             top: 0;
             left: 0;
-            z-index: 999;
-            width: 100%;
+            z-index: 90;
+            width: 99%;
         }
+
+        #concludingQuestions {
+            display:none;
+            padding: 1.5em;
+            z-index: 100;
+            position: fixed;
+            top: 5%; left: 5%; bottom: 5%; right: 5%;
+            border-radius: 3em;
+            border-style:inset;
+            border-width: 0.5em;
+            background: white;
+        }
+        #concludingQuestions label {
+            white-space: nowrap;
+        }
+
+        #startButton {
+            font-size: x-large;
+        }
+
 
     </style>
 </head>
 <section id="top">
 <h1>Trial to input formulæ</h1>
-
-<p>Please type into the boxes below the images; the text should be approximately the text of the question.
+<div id="instructions">
+<p>Please type into the boxes below the images; the text should be approximately the text of the exercise.
 Input each of the maths formulæ in the formula editor and copy it from there, then paste it in the textbox.
-Please do this for every mathematical formula.</p>
-    <p>Please save the result with the button below and send it to us.</p>
-    <p>
-        <button onclick="showEditor('https://demo.wiris.com/mathtype/en/')">WIRIS</button>
-        <button onclick="showEditor('https://cortexjs.io/mathlive/demo/')">MATHLIVE</button>
-        <button onclick="showEditor('https://equatio.texthelp.com/')">EQUATIO</button>
+The textbox accepts paste of MathML and screenshots.
+Please do this for every mathematical formula in all three editors.</p>
+    <p>You have 40 minutes to perform as much as possible.</p>
+    <p><video style="width:60%">
+        <source src="">
+    </video></p>
+</div>
+    <table border="0" style="width:100%"><tr><td>
+        {% for ed in threeEds() %}
+        <button onclick="showEditor('{{ed}}')">{{ed.toUpperCase()}}</button>
+        {% endfor %}
+    </td><td align="right">
+        <span id="startContainer"><button disabled id="startButton" onclick="reduceBanner()">Let's start!</button></span>
+        Token <span id="tokenDisplay">...</span>
+    </td>
+    </tr></table>
 
-    </p>
 </section>
 <section style="height:10em">&nbsp;</section>
 
-{% for item in range(1,11) %}
+
+
+{% for item in range(1,6) %}
 <hr>
 <section class="question" id="sec-{{item}}">
     <h2>Question {{item}}</h2>
     <p><img src="/static/Q{{item}}.png"></p>
-    <div class="target" contenteditable="true" >... type here...</div>
+    {% for ed in threeEds() %}
+    <button onclick="showEditor('{{ed}}')" style="float:left">O</button><div class="target editor-{{ed}}" title="type with {{ed}}" contenteditable="false">... type here with {{ed}}...</div>
+    {% endfor %}
 </section>
 {% endfor %}
 
 <hr>
-<p align="right"><button onclick="downloadWhole()">Save to HTML</button></p>
+
+<div  id="concludingQuestions">
+    <h1>Thank you!</h1>
+    <p>Please also respond to the following questions:</p>
+    <table style="width:90%">
+
+        <tr>
+            <td>Level:</td><td><fieldset>
+                <label><input type="radio" name="level" value="bachelor">Bachelor</label>
+                <label><input type="radio" name="level" value="bachelor">Master</label>
+            </fieldset>
+            </td>
+        </tr>
+        <tr>
+            <td>Domain:</td><td><fieldset>
+                <label><input type="radio" name="domain" value="Arch & Design">Arch & Design</label>
+                <label><input type="radio" name="domain" value="Economics & Marketing">Economics & Marketing</label>
+                <label><input type="radio" name="domain" value="Health">Health</label>
+                <label><input type="radio" name="domain" value="Human Resources & Management">Human Resources & Management</label>
+                <label><input type="radio" name="domain" value="IT & Tech">IT & Tech</label>
+                <label><input type="radio" name="domain" value="Social Work">Social Work</label>
+                <label><input type="radio" name="domain" value="Tourism">Tourism</label>
+            </fieldset>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>How much did you like Equatio?</td><td><fieldset>
+                Not at all <input type="radio" name="likedEquatio" value="-3">
+                <input type="radio" name="likedEquatio" value="-2">
+                <input type="radio" name="likedEquatio" value="-1">
+                <input type="radio" name="likedEquatio" value="0">
+                <input type="radio" name="likedEquatio" value="1">
+                <input type="radio" name="likedEquatio" value="2">
+                <input type="radio" name="likedEquatio" value="3"> Super!
+            </fieldset>
+            </td>
+        </tr>
+        <tr>
+            <td>How much did you like Mathlive?</td><td><fieldset>
+                Not at all <input type="radio" name="likedEquatio" value="-3">
+                <input type="radio" name="likedMathlive" value="-2">
+                <input type="radio" name="likedMathlive" value="-1">
+                <input type="radio" name="likedMathlive" value="0">
+                <input type="radio" name="likedMathlive" value="1">
+                <input type="radio" name="likedMathlive" value="2">
+                <input type="radio" name="likedMathlive" value="3"> Super!
+            </fieldset>
+            </td>
+        </tr>
+        <tr>
+            <td>How much did you like Wiris?</td><td><fieldset>
+                Not at all <input type="radio" name="likedWiris" value="-3">
+                <input type="radio" name="likedWiris" value="-2">
+                <input type="radio" name="likedWiris" value="-1">
+                <input type="radio" name="likedWiris" value="0">
+                <input type="radio" name="likedWiris" value="1">
+                <input type="radio" name="likedWiris" value="2">
+                <input type="radio" name="likedWiris" value="3"> Super!
+            </fieldset>
+            </td>
+        </tr>
+
+        <tr><td colspan="2"><hr></td></tr>
+
+        <tr>
+            <td>Are you an expert with LaTeX?</td>
+            <td><input name="latexExperience" placeholder="???" style="width:100%"></td>
+        </tr>
+
+        <tr><td colspan="2"><hr></td></tr>
+
+        <tr>
+            <td>Overall feeling on Wiris</td>
+            <td><input name="wirisFeeling" placeholder="... " style="width:100%"></td>
+        </tr>
+        <tr>
+            <td>Overall feeling on Equatio</td>
+            <td><input name="equatioFeeling" placeholder="..." style="width:100%"></td>
+        </tr>
+        <tr>
+            <td>Overall feeling on Mathlive</td>
+            <td><input name="mathliveFeeling" placeholder="..." style="width:100%"></td>
+        </tr>
+        <tr><td colspan="2"><hr></td></tr>
+
+        <tr>
+            <td>Further comments</td>
+            <td><input name="furtherComments" placeholder="..." style="width:100%"></td>
+        </tr>
+
+
+
+        <tr><td></td><td align="right"><button onclick="submitForm()" disabled>submit</button></td></tr>
+    </table>
+</div>
+<p align="right"><button onclick="finishInput()" disabled>Finish Input</button></p>
 <script>
     const targets = document.querySelectorAll("div.target");
+    const typicalHeaders = { 'Content-Type': 'application/json;charset=utf-8'};
+    const editorURLs = {wiris: 'https://demo.wiris.com/mathtype/en/', mathlive: 'https://cortexjs.io/mathlive/demo/', equatio: 'https://equatio.texthelp.com/'}
+    let token = null
+    let started = null
 
     for(let target of targets) {
         target.addEventListener("paste", (event) => {
+            const clipboardData = (event.clipboardData || window.clipboardData)
+            console.log(JSON.stringify(clipboardData.getData("Files")))
+            if(clipboardData.getData("image/png") || clipboardData.getData("image.jpeg") || clipboardData.types.indexOf("Files")>-1)
+                return;
             event.preventDefault();
             console.log(event)
-            console.log("Types", (event.clipboardData || window.clipboardData).types)
-            console.log("Should HTML be read?", (event.clipboardData || window.clipboardData).getData("text/html"))
-            let paste = (event.clipboardData || window.clipboardData).getData("text");
+            console.log("Types", clipboardData.types)
+            console.log("Should HTML be read?", clipboardData.getData("text/html"))
+            let paste = clipboardData.getData("text");
             if(!/<([a-zA-Z]:)?(math|maction|annotation|annotation-xml|menclose|merror|mfenced|mfrac|mi|mmultiscripts|mn|mo|mover|mpadded|mphantom|mprescripts|mroot|mrow|ms|semantics|mspace|msqrt|mstyle|msub|msup|msubsup|mtable|mtd|mtext|mtr|munder|munderover)[ >]/i.test(paste)) {
                 console.log("Not math")
                 alert("Not math")
@@ -88,24 +226,71 @@ Please do this for every mathematical formula.</p>
         });
     }
 
-    function downloadWhole() {
-        download(document.documentElement.outerHTML,
-            "input-with-formulae.html",
-            "text/html")
+    async function reduceBanner() {
+        document.getElementById("startContainer").innerText = "Start " + new Date()
+        document.getElementById("instructions").style.display = "none"
+        for(let e of document.getElementsByClassName("target")) e.setAttribute("contentEditable", "true")
+        started = new Date().getTime()
     }
 
-    function download(text, name, type) {
-        const a = document.createElement("a");
-        const file = new Blob([text], {type: type});
-        a.href = URL.createObjectURL(file);
-        a.download = name;
-        a.click()
+    async function finishInput() {
+        const obj = {}
+        obj["token"] = token
+        obj["content"] = sanitize(document.documentElement.outerHTML)
+
+        let response = await fetch("/app/upload/", {method: "POST",
+            body: JSON.stringify(obj),
+            headers: typicalHeaders,
+        })
+        if(response.statusText!=="OK") {
+            alert("Error, please try again (" + response.statusText + ").")
+        } else {
+            document.getElementById("concludingQuestions").style.display = "block"
+        }
     }
 
-    function showEditor(url) {
-        window.open(url, "formulaeditor", "popup")
+    const editorWindows = {}
+    function showEditor(name) {
+        name = name.toLowerCase()
+        if(editorWindows[name] && !editorWindows[name].closed)
+            editorWindows[name].focus()
+        else
+            editorWindows[name] = window.open(editorURLs[name], name, "popup")
     }
 
+    async function aquireToken() {
+        let res = await fetch("/app/init", {method:"POST"})
+        let json = await res.json()
+        token = json.token
+        console.log("Token " + token)
+        for (let b of document.getElementsByTagName("button"))  b.removeAttribute("disabled")
+        document.getElementById("tokenDisplay").innerText = token
+    }
+
+    async function submitForm() {
+        const responseObj = {token: token}
+        for(let i of document.getElementsByTagName("input")) {
+            responseObj[i.name] = i.value
+        }
+        let resp = await fetch("/app/respond", {method: "POST", body: JSON.stringify(responseObj), headers: typicalHeaders})
+        let result = await resp.json()
+        if(result.ok) {
+            document.getElementById("concludingQuestions").innerHTML = `<h1>Done!</h1><p>Thank you for your collaboration.</p><p>We have received data for token ${token}.</p>`
+        } else {
+            alert("Error, please try again (" + JSON.stringify(result) + ")")
+        }
+    }
+
+    function sanitize(str) {
+        str = str.replaceAll('contenteditable="true"', 'contenteditable="false"')
+        str = str.replace('id="instructions"', 'id="instructions" style="display:none"')
+        str = str.replace("Token ", "(" + (Math.trunc((new Date().getTime()-started)/1000)) + "s) Token ")
+        let a = str.indexOf(`<script>`);
+        let b = str.indexOf(`</` + `script>`) + 3+ 6;
+        return str.substring(0, a) + str.substring(b)
+    }
+
+    window.addEventListener("load", aquireToken)
 </script>
 
 </html>

@@ -488,6 +488,12 @@ video {
 .mt-12 {
   margin-top: 3rem;
 }
+.block {
+  display: block;
+}
+.table {
+  display: table;
+}
 .max-w-xl {
   max-width: 36rem;
 }

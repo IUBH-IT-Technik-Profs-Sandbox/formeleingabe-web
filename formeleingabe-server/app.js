@@ -92,6 +92,7 @@ app.post("/app/respond", (req,res)=> {
 const usernames = "formulateam---WeShallGetSome"
 
 app.get("/app/allresponses", (req,res) => {
+    res.setHeader("Content-Type", "text/html;charset=utf-8")
     res.send(`<!DOCTYPE html>
 <html><head><title>allresponses</title></head><body><form action="/app/allresponses" method="POST">
     User: <input name="user"><br> Password: <input name="pass" type="password"><br><input type="submit"></form></body></html>`)
@@ -103,8 +104,13 @@ app.post("/app/allresponses", async (req,res)=> {
         res.status(400).send({message: 'Wrong password'});
         return
     }
+    res.setHeader("Content-Type", "text/html;charset=utf-8")
     res.write(`<!DOCTYPE html>
-<html><head><title>Survey result</title></head><body><table><thead><tr>`)
+<html><head><title>Survey result</title><style type="text/css">tbody tr:nth-child(odd) {
+  background-color: #eeeeee; }
+tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}</style></head><body><table><thead><tr>`)
     const tokens = await fileStorage.listTokens()
     res.write(`<td>ID</td><td>date</td>`)
     for(let q of questionList) res.write(`<td>${q}</td>`)

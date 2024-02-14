@@ -17,6 +17,9 @@ module.exports = function (eleventyConfig) {
 		return r;
 	})
 
+	eleventyConfig.addNunjucksGlobal("builtAt",
+		()=> {return new Date().getTime() % 1000000;})
+
 	// Filters 
 	Object.keys(filters).forEach((filterName) => {
 		eleventyConfig.addFilter(filterName, filters[filterName])

@@ -25,6 +25,7 @@
             left: 0;
             z-index: 90;
             width: 99%;
+            overflow: scroll;
         }
 
         #concludingQuestions {
@@ -37,60 +38,123 @@
             border-style:inset;
             border-width: 0.5em;
             background: white;
+            overflow: scroll;
         }
         #concludingQuestions label {
             white-space: nowrap;
         }
 
-        #startButton {
+        button {
             font-size: x-large;
+        }
+
+        #remainingDisplay {
+            font-size: large;
         }
 
 
     </style>
 </head>
-<section id="top">
-<h1>Trial to input formulæ</h1>
-<div id="instructions">
-<p>Please type into the boxes below the images; the text should be approximately the text of the exercise.
-Input each of the maths formulæ in the formula editor and copy it from there, then paste it in the textbox.
-The textbox accepts paste of MathML and screenshots.
-Please do this for every mathematical formula in all three editors.</p>
-    <p>You have 40 minutes to perform as much as possible.</p>
-    <p style="text-align:center"><video style="width:60%; border: 1px; background-color: cornflowerblue" poster="/static/Video-Coming-Soon.svg">
-        <!-- <source src=""/> -->
-        Video coming soon
-    </video></p>
-</div>
+<body>
+<nav id="top">
+    <table style="width:90%"><tr><td><h1>Trial to input formulæ</h1></td>
+    <td align="right"><span id="remainingDisplay"></span></td></tr></table>
     <table border="0" style="width:100%"><tr><td>
-        {% for ed in threeEds() %}
+<!--        {% for ed in threeEds() %}
         <button onclick="showEditor('{{ed}}')">{{ed.toUpperCase()}}</button>
-        {% endfor %}
+        {% endfor %} -->
+        <span id="startedButtons" style="display:none">
+            <button onclick="redisplayInstructions()">Instructions</button>
+            <button onclick="redisplayTasks()" disabled="disabled">Tasks</button>
+        </span>
     </td><td align="right">
-        <span id="startContainer"><button disabled id="startButton" onclick="reduceBanner()">Let's start!</button></span>
+        <span id="startContainer"><button disabled id="startButton" onclick="startTasks()">Let's start!</button></span>
         Token <span id="tokenDisplay">...</span>
     </td>
     </tr></table>
 
+</nav>
+<section style="height:7em">&nbsp;</section>
+
+
+<section id="instructions">
+    <p> Your goal is to enter expressions using three different software tools: Wiris, Equatio and Mathlive.<br>
+        PLease first read the instructions.
+        Then, you shall start typing the solutions with the help of the chosen software...</p>
+    <p> For each question, you will open the external software using the [O] button on the left.
+        You will type the math in the external browser window containing the software and copy/paste it from there
+        into the question/answer window  (as "MathML" code or as pictures/screenshots)
+        You may quickly create a screenshot of a rectangular part of your
+        screen using the shortcut "windows-shift-s" (on Windows) or "Cmd-Shift-4" (on macOS)
+        and the dragging a rectangular area using your computer mouse.
+        This is explained in the video below
+    </p>
+    <p style="text-align:center"><video style="width:60%; max-height:50%; border: 1px; background-color: cornflowerblue" poster="/static/Video-Coming-Soon.svg">
+        <!-- <source src=""/> -->
+        Video coming soon
+    </video></p>
+    <hr>
+
+    <p> The tools are used in their demo version. Please try each of them first and paste the expressions inside the textbox below.</p>
+
+    <style>
+        #toolsGallery {
+            width:90%;
+        }
+        #toolsGallery tr td {
+            text-align:center;
+            cursor: pointer;
+            padding:2em;
+        }
+        #toolsGallery img {
+            height:10em;
+            margin:1em;
+            padding:0.5em;
+            border: bisque 1px solid;
+        }
+    </style>
+    <table id="toolsGallery"><tr>
+        <td onclick="showEditor('wiris')"><img src="/static/screenshot-wiris.png" style="height:10em; text-align:center"><br>
+            For Wiris, please scroll to the right place, copying is just done using the normal CTRL-C/Cmd-C
+        </td>
+        <td onclick="showEditor('equatio')"><img src="/static/screenshot-equatio.png" style="height:10em;text-align:center"><br>
+            For equatio, register with your IU account and exercise screenshot or copy MathML</td>
+        <td onclick="showEditor('mathlive')"><img src="/static/screenshot-mathlive.png" style="height:10em;text-align:center"><br>
+            For Mathlive, select all then find the command "Copy MathML" behind the &#8801;&nbsp;menu.</td></tr></table>
+
+
+    <p><div class="target" contenteditable="true">... please paste here...</div></p>
+    <p> We have prepared 5 tasks for which you should copy the math. Process all tasks or
+        perform the copy until the time is up (40 minutes are counted automatically).<br>
+        Then please click the "finish input" at the very bottom of the page to give your evaluation
+        and send the information to us.
+    </p>
+    <p>
+        Thanks so much in advance for your help!
+    </p>
+
 </section>
-<section style="height:10em">&nbsp;</section>
 
 
+
+<section id="tasks" style="display:none">
 
 {% for item in range(1,6) %}
 <hr>
-<section class="question" id="sec-{{item}}">
+<div class="question" id="sec-{{item}}">
     <h2>Question {{item}}</h2>
-    <p><img src="/static/Q{{item}}.png"></p>
+    <p><img src="/static/Q{{item}}.png?built={{builtAt()}}"></p>
     {% for ed in threeEds() %}
-    <button onclick="showEditor('{{ed}}')" style="float:left">O</button><div class="target editor-{{ed}}" title="type with {{ed}}" contenteditable="false">... type here with {{ed}}...</div>
+    <button onclick="showEditor('{{ed}}')" style="float:left">{{ed.substring(0,2)}}</button><div class="target editor-{{ed}}" title="type with {{ed}}" contenteditable="false">... type here with {{ed}}...</div>
     {% endfor %}
-</section>
+</div>
 {% endfor %}
 
-<hr>
+    <p align="right"><button id="finishButton" onclick="finishInput()" disabled>Finish Input</button></p>
+</section>
 
-<div  id="concludingQuestions">
+
+<section  id="concludingQuestions" style="display:none">
     <h1>Thank you!</h1>
     <p>Please also respond to the following questions:</p>
     <table style="width:90%">
@@ -185,14 +249,14 @@ Please do this for every mathematical formula in all three editors.</p>
 
         <tr><td></td><td align="right"><button onclick="submitForm()" disabled>submit</button></td></tr>
     </table>
-</div>
-<p align="right"><button onclick="finishInput()" disabled>Finish Input</button></p>
+</section>
 <script>
     const targets = document.querySelectorAll("div.target");
     const typicalHeaders = { 'Content-Type': 'application/json;charset=utf-8'};
     const editorURLs = {wiris: 'https://demo.wiris.com/mathtype/en/', mathlive: 'https://cortexjs.io/mathlive/demo/', equatio: 'https://equatio.texthelp.com/'}
     let token = null
-    let started = null
+    let started = null, watcher;
+    const startedButtons = document.getElementById("startedButtons");
 
     for(let target of targets) {
         target.addEventListener("paste", (event) => {
@@ -227,11 +291,48 @@ Please do this for every mathematical formula in all three editors.</p>
         });
     }
 
-    async function reduceBanner() {
-        document.getElementById("startContainer").innerText = "Start " + new Date()
+    async function startTasks() {
+        document.getElementById("startContainer").innerText = "Start " + new Date().toLocaleString()
+
+        startedButtons.style.display="block"
+        startedButtons.getElementsByTagName("button")[1].disabled = true
+
         document.getElementById("instructions").style.display = "none"
+        document.getElementById("tasks").style.display = "block"
+
+
         for(let e of document.getElementsByClassName("target")) e.setAttribute("contentEditable", "true")
         started = new Date().getTime()
+        watcher = window.setInterval(watchForEndTime,100)
+    }
+
+    function redisplayInstructions() {
+        startedButtons.getElementsByTagName("button")[0].disabled = true
+        startedButtons.getElementsByTagName("button")[1].disabled = false
+        document.getElementById("instructions").style.display = "block"
+        document.getElementById("tasks").style.display = "none"
+    }
+
+    function redisplayTasks() {
+        startedButtons.getElementsByTagName("button")[0].disabled = false
+        startedButtons.getElementsByTagName("button")[1].disabled = true
+        document.getElementById("instructions").style.display = "none"
+        document.getElementById("tasks").style.display = "block"
+    }
+
+    function watchForEndTime() {
+        if(!started) return;
+        const numMinutesRemain = ((new Date().getTime()-started)/(1000*60))
+        if(numMinutesRemain <= 0) {
+            window.clearInterval(watcher)
+            for(let e of document.getElementsByClassName("target")) e.setAttribute("contentEditable", "false")
+            alert("The 40 minutes to enter the expressions are over.\n Please press the finish button on the bottom.")
+            document.getElementById("finishButton").scrollIntoView()
+        } else {
+            let seconds = Math.trunc(60*((40-numMinutesRemain)-Math.trunc(40-numMinutesRemain))) + ""
+            if(seconds.length === 1) seconds = "0" + seconds
+            document.getElementById("remainingDisplay").innerText = `Time remaining: ${Math.trunc(40-numMinutesRemain)}:${seconds} min.`
+        }
     }
 
     async function finishInput() {
@@ -293,5 +394,5 @@ Please do this for every mathematical formula in all three editors.</p>
 
     window.addEventListener("load", aquireToken)
 </script>
-
+</body>
 </html>
